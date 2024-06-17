@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 
 const App = () => {
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100">
-      <div className="w-96 bg-white p-8 rounded-xl shadow-lg">
-        <TaskManager />
-      </div>
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-blue-300 to-purple-400 p-28 ml-28">
+  <div className="w-full max-w-2xl">
+    <div className="bg-white p-8 rounded-xl shadow-2xl">
+      <TaskManager />
     </div>
+  </div>
+</div>
+
   );
 };
 
@@ -20,7 +23,7 @@ const TaskManager = () => {
 
   const handleAddTask = () => {
     if (inputValue.trim() !== '') {
-      setTasks([...tasks, { id: Date.now(), text: inputValue, completed: false }]);
+      setTasks([...tasks, { id: Date.now(), text: inputValue, completed: false, time: new Date().toLocaleString() }]);
       setInputValue('');
     }
   };
@@ -45,21 +48,24 @@ const TaskManager = () => {
         <input
           type="text"
           placeholder="Enter task"
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-300 transition-shadow"
           value={inputValue}
           onChange={handleInputChange}
         />
       </div>
       <button
         onClick={handleAddTask}
-        className="bg-blue-500 text-white px-8 py-3 rounded-lg text-xl hover:bg-blue-600 transition-colors mr-2"
+        className="bg-blue-500 text-white px-8 py-3 rounded-lg text-xl hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all mb-4"
       >
         Add Task
       </button>
       <div className="mt-4">
         {tasks.map(task => (
-          <div key={task.id} className="flex items-center justify-between mb-2">
-            <div className={`text-xl ${task.completed ? 'line-through text-gray-500' : 'text-gray-800'}`}>{task.text}</div>
+          <div key={task.id} className="flex items-center justify-between mb-2 p-2 bg-gray-100 rounded-lg shadow-sm hover:bg-gray-200 transition-colors">
+            <div className={`text-xl ${task.completed ? 'line-through text-gray-500' : 'text-gray-800'}`}>
+              <div>{task.text}</div>
+              <div className="text-sm text-gray-500">{task.time}</div>
+            </div>
             <div>
               <button
                 onClick={() => handleToggleTask(task.id)}
